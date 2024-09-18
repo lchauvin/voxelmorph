@@ -99,7 +99,7 @@ def load_volfile(
             (vol, affine) = filename
         else:
             vol = filename
-    elif filename.endswith(('.nii', '.nii.gz', '.mgz')):
+    elif filename.endswith(('.nii', '.nii.gz', '.mgz', '.mnc')):
         import nibabel as nib
         img = nib.load(filename)
         vol = np.squeeze(img.dataobj)
@@ -141,7 +141,7 @@ def save_volfile(array, filename, affine=None):
     if isinstance(filename, pathlib.PurePath):
         filename = str(filename)
 
-    if filename.endswith(('.nii', '.nii.gz')):
+    if filename.endswith(('.nii', '.nii.gz', '.mnc')):
         import nibabel as nib
         if affine is None and array.ndim >= 3:
             # use LIA transform as default affine
@@ -158,7 +158,7 @@ def save_volfile(array, filename, affine=None):
         raise ValueError('unknown filetype for %s' % filename)
 
 
-def load_labels(arg, ext=('.nii.gz', '.nii', '.mgz', '.npy', '.npz')):
+def load_labels(arg, ext=('.nii.gz', '.nii', '.mgz', '.npy', '.npz', '.mnc')):
     """
     Load label maps, return a list of unique labels and the label maps. The label maps have to be
     of an integer type and identical shape.
